@@ -42,7 +42,7 @@ const ItemDetail: React.FC<ItemDetailProps> = ({ item, onUpdateItem, debugMode }
   }, [editingNotes]);
 
   return (
-    <div className="flex-1 flex flex-col bg-white overflow-hidden">
+    <div className="flex-1 flex flex-col bg-white overflow-hidden min-h-0">
       {/* Header */}
       <div className="border-b border-gray-200 p-6 space-y-4">
         <div>

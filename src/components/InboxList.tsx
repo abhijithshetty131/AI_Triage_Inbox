@@ -114,7 +114,7 @@ const InboxList: React.FC<InboxListProps> = ({
   };
 
   return (
-    <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
+    <div className="w-full lg:w-80 bg-white border-b border-gray-200 lg:border-b-0 lg:border-r flex flex-col min-h-0 overflow-hidden">
       {/* Search and Filters */}
       <div className="border-b border-gray-200 p-4 space-y-3">
         {/* Search */}
@@ -131,12 +131,12 @@ const InboxList: React.FC<InboxListProps> = ({
         </div>
 
         {/* Filter and Sort Controls */}
-        <div className="flex gap-2 text-xs">
+        <div className="grid gap-2 text-xs sm:grid-cols-3">
           {/* Status Filter */}
           <select
             value={statusFilter || ''}
             onChange={(e) => onSetStatusFilter((e.target.value as Status) || null)}
-            className="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-2 py-1 border border-gray-300 rounded text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
             aria-label="Filter by status"
           >
             <option value="">All Status</option>
@@ -187,14 +187,17 @@ const InboxList: React.FC<InboxListProps> = ({
 
         {/* Help Text */}
         <div className="text-xs text-gray-500 space-y-1">
-          <p>
+          <p className="flex flex-wrap gap-1 items-center">
             <kbd className="px-1 py-0.5 bg-gray-100 rounded text-gray-700">j</kbd>
             <span>/</span>
-            <kbd className="px-1 py-0.5 bg-gray-100 rounded text-gray-700">k</kbd> Navigate
+            <kbd className="px-1 py-0.5 bg-gray-100 rounded text-gray-700">k</kbd>
+            <span>Navigate</span>
           </p>
-          <p>
-            <kbd className="px-1 py-0.5 bg-gray-100 rounded text-gray-700">Space</kbd> Select{' '}
-            <kbd className="px-1 py-0.5 bg-gray-100 rounded text-gray-700">D</kbd> Mark Done
+          <p className="flex flex-wrap gap-1 items-center">
+            <kbd className="px-1 py-0.5 bg-gray-100 rounded text-gray-700">Space</kbd>
+            <span>Select</span>
+            <kbd className="px-1 py-0.5 bg-gray-100 rounded text-gray-700">D</kbd>
+            <span>Mark Done</span>
           </p>
         </div>
       </div>

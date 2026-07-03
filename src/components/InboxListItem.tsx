@@ -39,20 +39,20 @@ const InboxListItem: React.FC<InboxListItemProps> = ({
       role="option"
       aria-selected={isSelected}
     >
-      <div className="flex items-start gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
         {/* Checkbox */}
         <input
           type="checkbox"
           checked={isSelectedCheckbox}
           onChange={(e) => onToggleSelect(e as any)}
           onClick={(e) => e.stopPropagation()}
-          className="mt-1 cursor-pointer"
+          className="mt-1 cursor-pointer flex-shrink-0"
           aria-label="Select item"
         />
 
         <div className="flex-1 min-w-0">
           {/* Sender and Subject */}
-          <div className="flex items-start justify-between gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate">{item.sender.name}</p>
               <p className={`text-xs ${statusColors[item.status]}`}>{item.status}</p>
@@ -66,9 +66,9 @@ const InboxListItem: React.FC<InboxListItemProps> = ({
           <p className="text-sm text-gray-700 mt-1 truncate">{item.subject}</p>
 
           {/* Meta */}
-          <div className="flex items-center justify-between mt-2">
+          <div className="flex flex-col gap-2 mt-2 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-gray-500">{formatDate(item.received_at)}</p>
-            <div className="flex gap-1">
+            <div className="flex flex-wrap gap-1">
               {item.tags.slice(0, 2).map((tag) => (
                 <span
                   key={tag}
