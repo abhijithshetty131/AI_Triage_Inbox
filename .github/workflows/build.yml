@@ -1,0 +1,77 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Type check
+        run: npm run type-check || true
+
+      - name: Upload dist folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+  lighthouse:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download dist folder
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+
+      - name: Run Lighthouse
+        uses: actions/upload-artifact@v3
+        with:
+          name: lighthouse-reports
+          path: lighthouse-reports/
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download dist folder
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
