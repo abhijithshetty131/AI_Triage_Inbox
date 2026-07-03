@@ -2,6 +2,12 @@
 
 A frontend-only React application that helps ops/sales teams triage inbound messages quickly with AI-assisted suggestions. The AI is assistive—you stay in control.
 
+## 🔗 Links
+
+- GitHub repo: https://github.com/abhijithshetty131/AI_Triage_Inbox
+- Vercel deployment: https://vercel.com/abhijithshetty131s-projects/ai-triage-inbox/B8eZi3ZAi2dt13un9SKvSYfA84xQ
+- Vercel domain: https://ai-triage-inbox-chi.vercel.app/
+
 ## ✨ Features
 
 ### 1. **Inbox List (Primary Workflow)**
