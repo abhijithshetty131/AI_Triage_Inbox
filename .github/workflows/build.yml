@@ -61,16 +61,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check Vercel secrets
-        run: |
-          if [ -z "${VERCEL_TOKEN}" ] || [ -z "${VERCEL_ORG_ID}" ] || [ -z "${VERCEL_PROJECT_ID}" ]; then
-            echo "Skipping deploy: missing Vercel secrets (VERCEL_TOKEN/VERCEL_ORG_ID/VERCEL_PROJECT_ID)"
-            exit 0
-          fi
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       - uses: actions/checkout@v3
 
       - name: Download dist folder
