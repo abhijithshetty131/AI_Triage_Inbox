@@ -1,97 +1,70 @@
 # 📬 AI Triage Inbox
 
-A frontend-only React application that helps ops/sales teams triage inbound messages quickly with AI-assisted suggestions. The AI is assistive—you stay in control.
+A frontend-first React app for triaging inbound messages with AI-assisted classification, suggested actions, and draft replies. The demo uses mock AI so it works without a backend while still showing the end-to-end workflow.
 
 ## 🔗 Links
 
-- GitHub repo: https://github.com/abhijithshetty131/AI_Triage_Inbox
-- Vercel deployment: https://vercel.com/abhijithshetty131s-projects/ai-triage-inbox/B8eZi3ZAi2dt13un9SKvSYfA84xQ
-- Vercel domain: https://ai-triage-inbox-chi.vercel.app/
+- GitHub repository: https://github.com/abhijithshetty131/AI_Triage_Inbox
+- Production deployment: https://ai-triage-inbox-chi.vercel.app/
+- Vercel project: https://vercel.com/abhijithshetty131s-projects/ai-triage-inbox/B8eZi3ZAi2dt13un9SKvSYfA84xQ
 
-## ✨ Features
+## Project Overview
 
-### 1. **Inbox List (Primary Workflow)**
-- 📋 Sender, subject, and received time
-- 🏷️ Status filters: New, In Progress, Done
-- ⚡ Priority levels: P1, P2, P3
-- 🔍 Full-text search (client-side)
-- ☑️ Bulk select with "Mark Done" action
-- ⌨️ **Keyboard navigation**: j/k to navigate, Space to select, D to mark done, `/` to search
+AI Triage Inbox provides a triage workflow for ops and sales teams. Users can browse inbox items, filter by status/priority, update item details, and use AI-assisted suggestions for summaries, categories, and draft replies.
 
-### 2. **Item Detail View**
-- 📖 Full message content with proper formatting
-- 🎯 Status and priority controls (inline edit)
-- 📝 Internal notes field (auto-save)
-- 🤖 AI Assist panel with:
-  - Summary (2-4 bullet points)
-  - Category classification (Billing, Claims, Endorsement, General, Urgent, Spam)
-  - Suggested next action
-  - Editable draft reply
-  - Confidence score
+## Features Implemented
 
-### 3. **AI Assist (Mock AI - No Backend Required)**
-- ✅ Deterministic responses (same item = same output every time)
-- ⚙️ Simulated latency (200-1200ms)
-- 🚨 Simulated failures (~10% chance) to test error handling
-- 📊 Schema validation with detailed error reporting
-- 🐛 Debug mode showing raw AI responses and validation errors
-- 🎬 **Streaming draft reply**: Generates progressively, character by character
-- 🎛️ Stop/Retry controls with proper cancellation (no cross-item leakage)
+- Inbox list with status filters, priority filters, search, and bulk actions
+- Keyboard shortcuts for fast navigation and triage
+- Item detail view with message body, notes, status, priority, and AI assist
+- Mock AI assist panel with summary, category, suggested action, draft reply, and confidence score
+- Deterministic mock AI with simulated latency, schema validation, and error handling
+- Streaming draft reply generation with stop/retry behavior
+- Debug mode showing raw AI output and validation errors
+- Per-item caching and cancellation-safe AI requests
+- Vercel deployment configuration
 
-### 4. **Performance & Quality**
-- 📱 Responsive design (desktop-first, mobile-usable)
-- ♿ Accessible focus states and ARIA labels
-- 🎨 Strong typography, spacing, and visual hierarchy
-- ⚡ **Lighthouse scores: Performance 92, Best Practices 96** ✓
-- 💾 Per-item AI caching (5-minute TTL)
-- 🛡️ Race-condition safe: cancels in-flight AI on item switch
+## Tech Stack
 
-## 🚀 Getting Started
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- PostCSS / Autoprefixer
 
-### Prerequisites
-- Node.js 16+
-- npm or yarn
-
-### Installation
+## Installation
 
 ```bash
-# 1. Clone the repository (or extract the zip)
+# 1. Clone the repository
 cd React_app_assignment
 
 # 2. Install dependencies
 npm install
+```
 
-# 3. Copy environment template (optional, for real AI providers)
-cp .env.example .env.local
-# Leave .env.local empty to use Mock AI mode
+## Running Locally
 
-# 4. Start development server
+```bash
 npm run dev
 ```
 
-The app will open at `http://localhost:5173`
+Open `http://localhost:5173` in your browser.
 
-### Build for Production
+## Mock AI Explanation
 
-```bash
-npm run build
-npm run preview
-```
+The app uses mock AI instead of a real model. Mock AI generates deterministic outputs based on the item ID so the same input always gives the same summary, category, suggested action, and draft reply. It also mimics realistic AI behavior by simulating:
 
-## ⌨️ Keyboard Shortcuts
+- Latency between 200–1200ms
+- Validation checks
+- Failure conditions (~10% chance)
+- Streaming reply generation character-by-character
 
-| Shortcut | Action |
-|----------|--------|
-| `j` | Select next item |
-| `k` | Select previous item |
-| `Space` | Toggle checkbox for current item |
-| `d` | Mark all selected items as Done |
-| `/` | Focus search box |
-| `Enter` | Open selected item (already in detail view) |
+This makes the demo fully functional without external AI or backend dependencies.
 
-## 🛠️ Architecture & State Management
+## Architecture Overview
 
 ### Component Structure
+
 ```
 App (main state orchestration)
 ├── InboxList (left panel)
@@ -105,6 +78,61 @@ App (main state orchestration)
         ├── Suggested action
         └── Draft reply (streaming)
 ```
+
+### State Management
+
+- **App.tsx** stores inbox items, selection, filters, and shared state
+- **Component-local state** handles note editing, draft reply rendering, and UI behavior
+- **AI cache** is keyed by item ID and expires after 5 minutes
+- **AbortController** cancels stale AI requests when users switch items quickly
+
+## Performance Optimizations
+
+- Vite for fast dev and optimized production bundles
+- Memoized rendering to reduce unnecessary re-renders
+- Efficient list and filter handling for smooth UI updates
+- Lightweight CSS and layout for fast Time to Interactive
+- Caching and cancellation to prevent repeated work
+
+## Lighthouse Scores
+
+- Performance: 92/100
+- Best Practices: 96/100
+
+## Trade-offs
+
+- No backend persistence to keep the demo simple and self-contained
+- Mock AI only, so the experience is not backed by a real AI provider
+- No virtual scrolling, which is acceptable for this small demo but not ideal for large datasets
+- Desktop-first design; responsive, but not fully mobile-optimized
+
+## Future Improvements
+
+- Add real AI provider integration (OpenAI / Anthropic)
+- Support attachments and richer message context
+- Add undo/redo for item edits
+- Expand bulk actions for assignments, tags, and priority updates
+- Add dark mode and better mobile UX
+- Add backend persistence and authentication
+
+## Total Hours Spent
+
+**6.5 hours**
+
+## De-scoped Features
+
+- Real AI provider integration (optional, not fully implemented)
+- Advanced mobile-specific UX polish
+- Analytics / telemetry dashboard
+- Attachment upload UI
+
+## Testing Notes
+
+No formal automated tests were included due to time constraints, but the app was manually verified for keyboard shortcuts, AI behavior, item switching, filtering, and bulk actions.
+
+## Mock Data
+
+Mock data is located in `src/data/mockData.ts`, including 10 realistic inbox items covering billing issues, claims, endorsements, spam, renewals, and mixed statuses.
 
 ### State Management
 - **App.tsx**: Single source of truth for inbox state, selections, filters
